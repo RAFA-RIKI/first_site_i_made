@@ -1,0 +1,66 @@
+{% extends "base.html" %} {% block title %}Submit Data{% endblock %} {% block
+content %}
+
+<!-- کانتینر مرکزی برای فرم -->
+<div
+  class="max-w-xl mx-auto bg-white p-8 rounded-2xl shadow-2xl mt-10 border-t-4 border-indigo-600"
+>
+  <h1 class="text-3xl font-bold text-gray-800 mb-6 text-center">
+    Submit Your Data
+  </h1>
+  <p class="text-center text-gray-500 mb-8">
+    Please fill in the details below. This data will be visible on the
+    dashboard.
+  </p>
+
+  <!-- فرم با متد POST و اقدام به روت submit -->
+  <form method="post" action="{{ url_for('submit') }}" class="space-y-6">
+    <!-- فیلد نام -->
+    <div>
+      <label
+        for="name_input"
+        class="block text-sm font-medium text-gray-700 mb-2"
+      >
+        Name of Person/Entity:
+      </label>
+      <input
+        type="text"
+        id="name_input"
+        name="user_input_name"
+        required
+        placeholder="E.g., John Doe"
+        class="w-full p-3 border border-gray-300 rounded-xl focus:ring-3 focus:ring-indigo-200 focus:border-indigo-500 outline-none transition duration-150 shadow-inner"
+      />
+    </div>
+
+    <!-- فیلد سن -->
+    <div>
+      <label
+        for="age_input"
+        class="block text-sm font-medium text-gray-700 mb-2"
+      >
+        Age:
+      </label>
+      <input
+        type="number"
+        id="age_input"
+        name="user_input_age"
+        required
+        min="1"
+        placeholder="E.g., 30"
+        class="w-full p-3 border border-gray-300 rounded-xl focus:ring-3 focus:ring-indigo-200 focus:border-indigo-500 outline-none transition duration-150 shadow-inner"
+      />
+      <p class="mt-1 text-xs text-gray-400">Must be a positive number.</p>
+    </div>
+
+    <!-- دکمه ارسال -->
+    <button
+      type="submit"
+      class="w-full py-3 bg-indigo-600 text-white font-bold rounded-xl hover:bg-indigo-700 transition duration-200 shadow-lg hover:shadow-xl transform hover:scale-[1.01] active:scale-100"
+    >
+      Send Data to Server
+    </button>
+  </form>
+</div>
+
+{% endblock %}

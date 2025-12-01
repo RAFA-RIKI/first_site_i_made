@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title%}RAFA-RIKI Flask App{% endblock %}</title>
+
+    <!-- اضافه کردن Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      /* استایل‌های سفارشی */
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: #f7f9fb;
+      }
+      /* برای پیام‌های فلش */
+      .flash-message {
+        animation: fadeOut 1s ease-out 4s forwards; /* بعد از 4 ثانیه شروع به محو شدن می‌کند */
+        opacity: 1;
+        transition: opacity 1s ease-out;
+      }
+      @keyframes fadeOut {
+        to {
+          opacity: 0;
+          height: 0;
+          margin-bottom: 0;
+          padding-top: 0;
+          padding-bottom: 0;
+        }
+      }
+    </style>
+  </head>
+  <body class="min-h-screen flex flex-col">
+    <!-- هدر سایت -->
+    <header class="bg-white shadow-md">
+      <nav
+        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center"
+      >
+        <a
+          href="{{ url_for('home')}}"
+          class="text-2xl font-extrabold text-indigo-600 hover:text-indigo-800 transition rounded-lg p-2"
+          >RAFA-RIKI</a
+        >
+        <div class="space-x-4 flex items-center">
+          <a
+            href="{{ url_for('home')}}"
+            class="text-gray-600 hover:text-indigo-600 transition font-medium px-3 py-2 rounded-lg"
+            >Home</a
+          >
+          <a
+            href="{{ url_for('submit')}}"
+            class="text-gray-600 hover:text-indigo-600 transition font-medium px-3 py-2 rounded-lg"
+            >Submit Data</a
+          >
+          <a
+            href="{{ url_for('about')}}"
+            class="text-gray-600 hover:text-indigo-600 transition font-medium px-3 py-2 rounded-lg"
+            >About</a
+          >
+
+          <!-- لینک‌های احراز هویت -->
+          {% if session.logged_in %}
+          <span class="text-sm font-semibold text-indigo-500 hidden sm:inline"
+            >Welcome, {{ session.name }}</span
+          >
+          <a
+            href="{{ url_for('logout')}}"
+            class="bg-red-500 text-white font-bold py-2 px-4 rounded-full hover:bg-red-600 transition shadow-md text-sm"
+            >Logout</a
+          >
+          {% else %}
+          <a
+            href="{{ url_for('login')}}"
+            class="bg-indigo-500 text-white font-bold py-2 px-4 rounded-full hover:bg-indigo-600 transition shadow-md text-sm"
+            >Login</a
+          >
+          <a
+            href="{{ url_for('register')}}"
+            class="text-indigo-600 border border-indigo-400 font-bold py-2 px-4 rounded-full hover:bg-indigo-50 transition text-sm hidden sm:inline"
+            >Register</a
+          >
+          {% endif %}
+        </div>
+      </nav>
+    </header>
+
+    <!-- کانتینر پیام‌های فلش -->
+    <div
+      class="flash-container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4 w-full"
+    >
+      {% with messages = get_flashed_messages(with_categories=true) %} {% if
+      messages %} {% for category, message in messages %} {% set bg_color =
+      {'success': 'bg-green-100 border-green-400 text-green-700', 'error':
+      'bg-red-100 border-red-400 text-red-700', 'info': 'bg-blue-100
+      border-blue-400 text-blue-700'}.get(category, 'bg-gray-100 border-gray-400
+      text-gray-700')%}
+      <div
+        class="flash-message {{ bg_color }} border px-4 py-3 rounded-lg relative mb-3 shadow-sm"
+        role="alert"
+      >
+        <span class="block sm:inline font-medium">{{ message }}</span>
+      </div>
+      {% endfor %} {% endif %} {% endwith %}
+    </div>
+
+    <!-- محتوای اصلی -->
+    <main class="flex-grow max-w-7xl mx-auto w-full px-4 py-8">
+      {% block content %} {% endblock %}
+    </main>
+
+    <!-- فوتر -->
+    <footer class="bg-gray-800 text-white p-4 text-center mt-auto shadow-inner">
+      <p>&copy; 2025 Python Flask Learning RAFA-RIKI</p>
+    </footer>
+
+    <!-- حذف اسکریپت محو شدن (Fade Out) زیرا از انیمیشن CSS استفاده شد -->
+  </body>
+</html>
